@@ -2,7 +2,7 @@ package cmd
 
 import (
 	// "fmt"
-	// "time"
+	"time"
 
 	"github.com/spf13/cobra"
 )
@@ -26,6 +26,13 @@ func addTask(_ *cobra.Command, args []string) {
 		Must(CreateDatabase())
 	}
 
-	CreateNewTask(args[0])
+	task := Todo{
+		Id:           uint8(fetchNextId()),
+		Task:         args[0],
+		CreationDate: time.Now().UnixMicro(),
+		Completion:   false,
+	}
+
+	CreateNewTask(&task)
 
 }

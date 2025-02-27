@@ -5,14 +5,15 @@ import (
 	"os"
 	"strconv"
 
+	_ "github.com/gocarina/gocsv"
 	"github.com/spf13/cobra"
 )
 
 type Todo struct {
-	Id           uint8
-	Task         string
-	CreationDate int64
-	Completion   bool
+	Id           uint8  `csv:"id"`
+	Task         string `csv:"task"`
+	CreationDate int64  `csv:"creation_date"`
+	Completion   bool   `csv:"completion"`
 }
 
 func (t Todo) ToSlice() []string {
