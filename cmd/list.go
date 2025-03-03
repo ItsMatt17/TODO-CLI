@@ -13,7 +13,7 @@ import (
 
 var listCmd = &cobra.Command{
 	Use:   "list",
-	Short: "Task is used to create simple tasks in your CLI",
+	Short: "List off all the tasks and their status",
 	Long:  "jfldkslkjds",
 	Run: func(cmd *cobra.Command, args []string) {
 		listTask(cmd, args)
@@ -33,7 +33,7 @@ func listTask(_ *cobra.Command, _ []string) {
 
 	writer := tabwriter.NewWriter(os.Stdout, 8, 0, 2, ' ', 0)
 
-	fmt.Fprintln(writer, "ID\tTask\tCreation Time\tCompletion")
+	fmt.Fprintln(writer, "ID\tTask\tCompletion\tCreation Time\t")
 	for _, task := range tasks {
 
 		time := timediff.TimeDiff(time.UnixMicro(task.CreationDate))

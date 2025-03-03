@@ -2,13 +2,15 @@ package cmd
 
 import (
 	// "fmt"
-	"github.com/spf13/cobra"
+	"fmt"
 	"strconv"
+
+	"github.com/spf13/cobra"
 )
 
 var completeCmd = &cobra.Command{
 	Use:   "complete",
-	Short: "Task is used to create simple tasks in your CLI",
+	Short: "Update the status of a task based on ID to turn to complete",
 	Long:  "jfldkslkjds",
 	Args:  cobra.ExactArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
@@ -22,7 +24,7 @@ var completeCmd = &cobra.Command{
 
 		if err != nil {
 			comps = cobra.AppendActiveHelp(comps, "You must provide a valid ID for a task")
-		} else if _, err := FetchTaskById(uint8(val)); err != nil {
+		} else if _, _, err := FetchTaskById(uint8(val)); err != nil {
 			comps = cobra.AppendActiveHelp(comps, "You must a valid ID for a task")
 		}
 
@@ -42,8 +44,13 @@ func completeTask(_ *cobra.Command, args []string) {
 	id, _ := strconv.ParseInt(args[0], 10, 8)
 	num := uint8(id)
 
-	task, _ := FetchTaskById(num)
+	task, idx, err := FetchTaskById(num)
+	if err != nil {
+		fmt.Print(err.Error())
+		return
+	}
+
 	task.Completion = true
-	CreateNewTask(task)
+	UpdateTask(task, idx)
 
 }

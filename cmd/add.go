@@ -9,7 +9,7 @@ import (
 
 var addCmd = &cobra.Command{
 	Use:   "add",
-	Short: "Task is used to create simple tasks in your CLI",
+	Short: "To create a task by name/description",
 	Long:  "jfldkslkjds",
 	Args:  cobra.ExactArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {

@@ -1,20 +1,21 @@
 package cmd
 
 import (
-	"fmt"
+	// "fmt"
 	// "time"
+	"fmt"
 	"strconv"
 
 	"github.com/spf13/cobra"
 )
 
-var updateCmd = &cobra.Command{
-	Use:   "update",
-	Short: "Update the name/description of a task based on ID",
+var deleteCmd = &cobra.Command{
+	Use:   "delete",
+	Short: "Delete a task based on ID",
 	Long:  "jfldkslkjds",
-	Args:  cobra.ExactArgs(2),
+	Args:  cobra.ExactArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
-		updateTask(cmd, args)
+		deleteTask(cmd, args)
 	},
 	ValidArgsFunction: func(cmd *cobra.Command, args []string, toComplete string) ([]string, cobra.ShellCompDirective) {
 		var comps []string
@@ -32,10 +33,10 @@ var updateCmd = &cobra.Command{
 }
 
 func init() {
-	rootCmd.AddCommand(updateCmd)
+	rootCmd.AddCommand(deleteCmd)
 }
 
-func updateTask(_ *cobra.Command, args []string) {
+func deleteTask(_ *cobra.Command, args []string) {
 	if !VerifyDatabase() {
 		Must(CreateDatabase())
 	}
@@ -43,14 +44,13 @@ func updateTask(_ *cobra.Command, args []string) {
 	id, _ := strconv.ParseInt(args[0], 10, 8)
 	num := uint8(id)
 
-	task, idx, err := FetchTaskById(num)
+	_, idx, err := FetchTaskById(num)
 	if err != nil {
 		fmt.Print(err.Error())
 		return
 	}
 
-	task.Task = args[1]
-
-	UpdateTask(task, idx)
+	// fmt.Print(idx)
+	DeleteTask(idx)
 
 }
